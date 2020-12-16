@@ -2,8 +2,6 @@ package com.example.jetpackacademy.ui.detail
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,18 +17,19 @@ import com.example.jetpackacademy.utils.DataDummy
 
 class DetailCourseActivity : AppCompatActivity() {
 
-    private lateinit var detailContentBinding: ContentDetailCourseBinding
-
     companion object {
         const val EXTRA_COURSE = "extra_course"
     }
+
+    private lateinit var detailContentBinding: ContentDetailCourseBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val activityDetailCourseBinding = ActivityDetailCourseBinding.inflate(layoutInflater)
         detailContentBinding = activityDetailCourseBinding.detailContent
-        setContentView(detailContentBinding.root)
+
+        setContentView(activityDetailCourseBinding.root)
 
         setSupportActionBar(activityDetailCourseBinding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -56,7 +55,8 @@ class DetailCourseActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@DetailCourseActivity)
             setHasFixedSize(true)
             this.adapter = adapter
-            val dividerItemDecoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
+            val dividerItemDecoration =
+                DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
             addItemDecoration(dividerItemDecoration)
         }
     }
@@ -64,14 +64,16 @@ class DetailCourseActivity : AppCompatActivity() {
     private fun populateCourse(courseEntity: CourseEntity) {
         detailContentBinding.textTitle.text = courseEntity.title
         detailContentBinding.textDescription.text = courseEntity.description
-        detailContentBinding.textDate.text = resources.getString(R.string.deadline_date, courseEntity.deadline)
+        detailContentBinding.textDate.text =
+            resources.getString(R.string.deadline_date, courseEntity.deadline)
 
         Glide.with(this)
             .load(courseEntity.imagePath)
             .transform(RoundedCorners(20))
             .apply(
                 RequestOptions.placeholderOf(R.drawable.ic_loading)
-                .error(R.drawable.ic_error))
+                    .error(R.drawable.ic_error)
+            )
             .into(detailContentBinding.imagePoster)
 
         detailContentBinding.btnStart.setOnClickListener {
